@@ -53,6 +53,7 @@ defineSuite([
     var pointCloudNormalsOctEncodedUrl = './Data/Cesium3DTiles/PointCloud/PointCloudNormalsOctEncoded';
     var pointCloudQuantizedUrl = './Data/Cesium3DTiles/PointCloud/PointCloudQuantized';
     var pointCloudQuantizedOctEncodedUrl = './Data/Cesium3DTiles/PointCloud/PointCloudQuantizedOctEncoded';
+    var pointCloudDracoUrl = './Data/Cesium3DTiles/PointCloud/PointCloudDraco';
     var pointCloudWGS84Url = './Data/Cesium3DTiles/PointCloud/PointCloudWGS84';
     var pointCloudBatchedUrl = './Data/Cesium3DTiles/PointCloud/PointCloudBatched';
     var pointCloudWithPerPointPropertiesUrl = './Data/Cesium3DTiles/PointCloud/PointCloudWithPerPointProperties';
@@ -227,6 +228,12 @@ defineSuite([
 
     it('renders point cloud with quantized positions and oct-encoded normals', function() {
         return Cesium3DTilesTester.loadTileset(scene, pointCloudQuantizedOctEncodedUrl).then(function(tileset) {
+            Cesium3DTilesTester.expectRender(scene, tileset);
+        });
+    });
+
+    it('renders point cloud with draco encoded positions, normals, colors, and batch ids', function() {
+        return Cesium3DTilesTester.loadTileset(scene, pointCloudDracoUrl).then(function(tileset) {
             Cesium3DTilesTester.expectRender(scene, tileset);
         });
     });
@@ -815,7 +822,7 @@ defineSuite([
         });
     });
 
-    it('Rebuilds shaders when clipping planes are enabled, change between union and intersection, or change count', function () {
+    it('rebuilds shaders when clipping planes are enabled, change between union and intersection, or change count', function () {
         return Cesium3DTilesTester.loadTileset(scene, pointCloudRGBUrl).then(function(tileset) {
             var tile = tileset._root;
             tile._isClipped = true;
@@ -859,7 +866,7 @@ defineSuite([
         });
     });
 
-    it('Clipping planes selectively disable rendering', function () {
+    it('clipping planes selectively disable rendering', function () {
         return Cesium3DTilesTester.loadTileset(scene, pointCloudRGBUrl).then(function(tileset) {
             var color;
             expect(scene).toRenderAndCall(function(rgba) {
